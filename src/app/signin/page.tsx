@@ -1,74 +1,86 @@
- "use client";
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeClosed } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "sonner";
+import { UserContext } from "../providers/UserProvider";
+import { useRouter } from "next/navigation";
 
 const SingInPage = () => {
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [credential, setCredential] = useState("");
-  const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
 
-  const handleSignin = async () => {
-    const response = await fetch("http://localhost:5500/signin", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ credential, password }),
-    });
+const [passwordShown, setPasswordShown] = useState(false);
+const [credential, setCredential] = useState("");
+const [password, setPassword] = useState("");
 
-    const data = await response.json();
+  if (user) {
+    router.replace("/");
+  }
 
-    if (response.ok) {
-      toast.success(data.message);
-    } else {
-      toast.error(data.message);
-    }
-  };
+const handleSignin = async () => {
+const response = await fetch("http://localhost:5500/signin", {
+headers: {
+"Content-Type": "application/json",
+},
+method: "POST",
+body: JSON.stringify({ credential, password }),
+});
 
-  return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Card>
-        <CardHeader>
-          <CardTitle>Signin</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-4">
-            <Input
-              placeholder="Enter your email, phone or username..."
-              value={credential}
-              onChange={(e) => {
-                setCredential(e.target.value);
-              }}
-            />
-            <div className="relative">
-              <Input
-                placeholder="Password..."
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                type={passwordShown ? "text" : "password"}
-              />
-              <Button
-                onClick={() => {
-                  setPasswordShown(!passwordShown);
-                }}
-                variant="ghost"
-                className="absolute right-0 top-0"
-              >
-                {passwordShown ? <Eye /> : <EyeClosed />}
-              </Button>
-            </div>
-            <Button onClick={handleSignin}>Sign in</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
+const data = await response.json();
+
+if (response.ok) {
+toast.success(data.message);
+      setUser(data.body);
+} else {
+toast.error(data.message);
+}
+};
+
+return (
+<div className="w-full h-screen flex justify-center items-center">
+ 
+<Card>
+   <div className="w-10 h-100"><img src="./landing-3x.png" alt="" /></div>
+<CardHeader>
+<CardTitle><img src="https://download.logo.wine/logo/Instagram/Instagram-Wordmark-Black-Logo.wine.png" alt="logo" /></CardTitle>
+</CardHeader>
+<CardContent>
+<div className="flex flex-col gap-4">
+<Input
+placeholder="Enter your email, phone or username..."
+value={credential}
+onChange={(e) => {
+setCredential(e.target.value);
+}}
+/>
+<div className="relative">
+<Input
+placeholder="Password..."
+value={password}
+onChange={(e) => {
+setPassword(e.target.value);
+}}
+type={passwordShown ? "text" : "password"}
+/>
+<Button
+onClick={() => {
+setPasswordShown(!passwordShown);
+}}
+variant="ghost"
+className="absolute right-0 top-0"
+>
+{passwordShown ? <Eye /> : <EyeClosed />}
+</Button>
+</div>
+<Button onClick={handleSignin}>Sign in</Button>
+</div>
+</CardContent>
+</Card>
+</div>
+);
 };
 
 export default SingInPage;
