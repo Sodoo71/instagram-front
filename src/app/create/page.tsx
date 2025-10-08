@@ -39,7 +39,7 @@ const Page = () => {
         <Link href={"/"}>
           <ChevronLeft size={24} />
         </Link>
-        <div className="font-bold">New post</div>
+   <div className="font-bold">New post</div>
         <Button onClick={handleSubmit} className="font-bold text-blue-400" variant={"ghost"}>
           Share
         </Button>
