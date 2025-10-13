@@ -5,19 +5,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "sonner";
+import { UserContext } from "../providers/UserProvider";
 
 const Page = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const router = useRouter();
+  const {token} = useContext(UserContext)
 
   const handleSubmit = async () => {
     const response = await fetch("http://localhost:5500/posts", {
       method: "POST",
       body: JSON.stringify({ imageUrl, description }),
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
