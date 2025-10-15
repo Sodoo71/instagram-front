@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { toast } from "sonner";
 import { UserContext } from "../providers/UserProvider";
+import axios from "axios";
 
 const Page = () => {
   const [imageUrl, setImageUrl] = useState("");
@@ -16,9 +17,10 @@ const Page = () => {
   const {token} = useContext(UserContext)
 
   const handleSubmit = async () => {
-    const response = await fetch("http://localhost:5500/posts", {
-      method: "POST",
-      body: JSON.stringify({ imageUrl, description }),
+    const response = await axios.post("http://localhost:5500/posts", {
+      imageUrl,
+      description
+    }, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -26,7 +28,7 @@ const Page = () => {
       },
     });
 
-    const data = await response.json();
+    const data = await response.data;
     if (response.status !== 200) {
       toast.error(data.message);
       return;

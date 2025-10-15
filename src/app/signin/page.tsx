@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { toast } from "sonner";
 import { UserContext } from "../providers/UserProvider";
 import { redirect } from "next/navigation";
+import axios from "axios";
 
 const SingInPage = () => {
   const { user, setToken } = useContext(UserContext);
@@ -20,17 +21,14 @@ const SingInPage = () => {
   }
 
   const handleSignin = async () => {
-    const response = await fetch("http://localhost:5500/signin", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ credential, password }),
+    const response = await axios.post("http://localhost:5500/signin", {
+      credential,
+      password
     });
 
-    const data = await response.json();
+    const data = await response.data;
 
-    if (response.ok) {
+    if (response.status === 200) {
       toast.success(data.message);
       setToken(data.body);
     } else {

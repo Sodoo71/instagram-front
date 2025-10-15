@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { User, UserContext } from "./providers/UserProvider";
 import { redirect } from "next/navigation";
 import { Navbar } from "./components/Navbar";
+import { Heart } from "lucide-react";
+
 
 type Post = {
   _id: string;
@@ -58,7 +60,9 @@ export default function Home() {
               alt=""
               className="w-full -h-96 object-cover rounded-md"
             />
-            <p className="mt-2 text-gray-800">{post.description}</p>
+            <div><Heart></Heart>
+            </div>
+            <p className="mt-2 text-white-800">{post.description}</p>
           </div>
         ))}
       </div>

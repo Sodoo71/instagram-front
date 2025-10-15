@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -14,17 +15,16 @@ const SingUpPage = () => {
   const [username, setUsername] = useState("");
 
   const handleSignup = async () => {
-    const response = await fetch("http://localhost:5500/signup", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ credential, password, fullname, username }),
+    const response = await axios.post("http://localhost:5500/signup", {
+      credential,
+      password,
+      fullname,
+      username
     });
 
-    const data = await response.json();
+    const data = await response.data;
 
-    if (response.ok) {
+    if (response.status === 200) {
       toast.success(data.message);
     } else {
       toast.error(data.message);
