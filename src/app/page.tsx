@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { User, UserContext } from "./providers/UserProvider";
 import { redirect } from "next/navigation";
 import { Navbar } from "./components/Navbar";
-import { Heart } from "lucide-react";
+import { Heart, MessageCircle, Bookmark, Send } from "lucide-react";
 
 
 type Post = {
@@ -60,7 +60,21 @@ export default function Home() {
               alt=""
               className="w-full -h-96 object-cover rounded-md"
             />
-            <div><Heart></Heart>
+            <div>
+            </div>
+            <div className="flex gap-2">
+              <Heart className="cursor-pointer hover:text-red-500" size={20} />
+              <MessageCircle className="cursor-pointer hover:text-blue-500" size={20} />
+              <Send className="cursor-pointer hover:text-blue-500" size={20} />
+              <Bookmark className="cursor-pointer hover:text-blue-500" size={20}/>
+            </div>
+            <div className="flex gap-2">
+            
+              <input 
+                type="text" 
+                placeholder="Add a comment..." 
+                className="w-full p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-gray-500"
+              />
             </div>
             <p className="mt-2 text-white-800">{post.description}</p>
           </div>
